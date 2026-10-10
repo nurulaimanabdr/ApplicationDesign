@@ -4,6 +4,10 @@
 **Reference:** https://docs.flutterflow.io/flutterflow-ui/widget-palette
 **Time needed:** 45–60 minutes
 
+## 📌 Start Here
+Keep the **cheat sheet** open in a second browser tab while you build:
+![Cheat Sheet](flutterflow-cheat-sheet.png)
+
 ## What You Will Learn
 - Use widgets from the Widget Palette
 - Build a responsive page layout without code
