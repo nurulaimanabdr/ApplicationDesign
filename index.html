@@ -4,7 +4,17 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FlutterFlow Page Navigation — Student Tutorial</title>
-<style>
+<figure class="navigation-visual">
+  <img
+    src="flutterflow-page-navigation-map.png"
+    alt="Navigation diagram: tap a button on the source page to open the destination page, then use Go Back to return. Steps: select a widget, add a navigation action, choose a destination, and test in preview."
+  >
+  <figcaption>
+    Page navigation flow: select a tappable widget, add a navigation action,
+    choose the destination page, and test the result.
+  </figcaption>
+</figure>
+  <style>
   :root {
     --ink: #1f2933;
     --muted: #616e7c;
@@ -144,6 +154,25 @@
     body { padding: 0; }
     a { color: var(--ink); }
   }
+
+  .navigation-visual {
+  margin: 1.5rem 0 2.5rem;
+}
+
+.navigation-visual img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.navigation-visual figcaption {
+  margin-top: 0.6rem;
+  color: var(--muted);
+  font-size: 0.92rem;
+  text-align: center;
+}
 </style>
 </head>
 <body>
