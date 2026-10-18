@@ -3,477 +3,294 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FlutterFlow Tutorial — Build Your Main Task Page</title>
+<title>FlutterFlow Page Navigation — Student Tutorial</title>
 <style>
   :root {
-    --primary: #4F46E5;
-    --primary-dark: #312E81;
-    --primary-light: #EEF2FF;
-    --text: #1f2937;
-    --muted: #6B7280;
-    --border: #e5e7eb;
-    --surface: #f9fafb;
+    --ink: #1f2933;
+    --muted: #616e7c;
+    --accent: #2f6fed;
+    --accent-soft: #eef3fe;
+    --border: #dcdfe4;
+    --code-bg: #f4f6f8;
+    --tip-bg: #f0f7ee;
+    --tip-border: #5c9b4a;
   }
+
   * { box-sizing: border-box; }
+
   body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    max-width: 840px;
-    margin: 0 auto;
-    padding: 40px 20px 80px;
+    margin: 0;
+    padding: 2.5rem 1.25rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     line-height: 1.7;
-    color: var(--text);
-    background: #fff;
+    color: var(--ink);
+    background: #ffffff;
   }
+
+  article {
+    max-width: 820px;
+    margin: 0 auto;
+  }
+
   h1 {
-    color: var(--primary);
-    border-bottom: 3px solid var(--primary);
-    padding-bottom: 10px;
-    font-size: 2em;
+    font-size: 2rem;
     line-height: 1.25;
+    margin: 0 0 0.35rem;
+    letter-spacing: -0.02em;
   }
+
+  .subtitle {
+    color: var(--muted);
+    font-size: 1.05rem;
+    margin: 0 0 2rem;
+  }
+
   h2 {
-    color: var(--primary-dark);
-    margin-top: 48px;
-    padding-bottom: 6px;
+    font-size: 1.4rem;
+    margin: 2.75rem 0 0.75rem;
+    padding-bottom: 0.4rem;
     border-bottom: 1px solid var(--border);
   }
-  h3 { color: var(--primary-dark); margin-top: 32px; font-size: 1.15em; }
-  a { color: var(--primary); }
+
+  h3 {
+    font-size: 1.1rem;
+    margin: 1.75rem 0 0.5rem;
+  }
+
+  p { margin: 0 0 1rem; }
+
+  ul, ol { margin: 0 0 1.15rem; padding-left: 1.4rem; }
+  li { margin-bottom: 0.4rem; }
+
   code {
-    background: #f3f4f6;
-    padding: 2px 6px;
+    background: var(--code-bg);
+    padding: 0.12rem 0.36rem;
     border-radius: 4px;
-    font-size: 0.88em;
-    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-    color: #be185d;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 0.9em;
   }
-  pre {
-    background: #1e1e2e;
-    color: #e2e8f0;
-    padding: 16px 20px;
-    border-radius: 10px;
-    overflow-x: auto;
-    font-size: 0.85em;
-    line-height: 1.5;
+
+  blockquote {
+    margin: 1.25rem 0;
+    padding: 0.85rem 1.1rem;
+    background: var(--code-bg);
+    border-left: 4px solid var(--muted);
+    border-radius: 0 6px 6px 0;
+    color: var(--ink);
   }
-  pre code { background: none; color: inherit; padding: 0; }
-  table {
-    border-collapse: collapse;
-    width: 100%;
-    margin: 18px 0;
-    font-size: 0.94em;
+  blockquote p:last-child { margin-bottom: 0; }
+
+  .instructor {
+    margin: 0 0 2.5rem;
+    padding: 1.35rem 1.5rem;
+    background: var(--accent-soft);
+    border-left: 5px solid var(--accent);
+    border-radius: 0 8px 8px 0;
   }
-  th, td {
-    border: 1px solid var(--border);
-    padding: 10px 14px;
-    text-align: left;
-    vertical-align: top;
+  .instructor h2 {
+    margin: 0 0 0.6rem;
+    font-size: 1.15rem;
+    border: none;
+    padding: 0;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
   }
-  th { background: var(--surface); font-weight: 600; }
-  tbody tr:nth-child(even) { background: #fcfcfd; }
-  img { max-width: 100%; border-radius: 10px; margin: 18px 0; box-shadow: 0 4px 14px rgba(0,0,0,0.08); }
-  hr { border: none; border-top: 1px solid var(--border); margin: 48px 0; }
-  .callout {
-    background: var(--primary-light);
-    border-left: 4px solid var(--primary);
-    padding: 14px 20px;
-    border-radius: 6px;
-    margin: 22px 0;
+  .instructor p:last-child { margin-bottom: 0; }
+
+  .tip {
+    margin: 1.25rem 0;
+    padding: 0.85rem 1.1rem;
+    background: var(--tip-bg);
+    border-left: 4px solid var(--tip-border);
+    border-radius: 0 6px 6px 0;
   }
-  .warn {
-    background: #FFFBEB;
-    border-left: 4px solid #F59E0B;
-    padding: 14px 20px;
-    border-radius: 6px;
-    margin: 22px 0;
+  .tip p:last-child { margin-bottom: 0; }
+
+  .checklist {
+    list-style: none;
+    padding-left: 0;
   }
-  .checkpoint {
-    background: #ECFDF5;
-    border-left: 4px solid #10B981;
-    padding: 12px 18px;
-    border-radius: 6px;
-    margin: 18px 0;
-    font-weight: 500;
+  .checklist li {
+    position: relative;
+    padding-left: 1.9rem;
+    margin-bottom: 0.6rem;
   }
-  .meta {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 18px 24px;
-    margin: 24px 0;
-    font-size: 0.95em;
+  .checklist li::before {
+    content: "☐";
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 1.1rem;
+    color: var(--accent);
   }
-  .meta p { margin: 6px 0; }
-  ul li, ol li { margin: 6px 0; }
-  .checklist { list-style: none; padding-left: 0; }
-  .checklist li::before { content: "☐ "; color: var(--primary); font-weight: bold; margin-right: 4px; }
-  .toc {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 20px 28px;
-    margin: 28px 0;
+
+  .callout-title {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 0.3rem;
   }
-  .toc ol { margin: 8px 0; padding-left: 22px; }
-  .toc a { text-decoration: none; }
-  .toc a:hover { text-decoration: underline; }
+
   footer {
-    margin-top: 60px;
-    padding-top: 20px;
+    margin-top: 3rem;
+    padding-top: 1.25rem;
     border-top: 1px solid var(--border);
+    font-size: 0.92rem;
     color: var(--muted);
-    font-size: 0.88em;
-    text-align: center;
   }
-  @media (max-width: 600px) {
-    body { padding: 24px 16px 60px; }
-    h1 { font-size: 1.5em; }
-    table { font-size: 0.85em; }
-    th, td { padding: 8px 10px; }
+  footer a { color: var(--accent); }
+
+  @media print {
+    body { padding: 0; }
+    a { color: var(--ink); }
   }
 </style>
 </head>
 <body>
+<article>
 
-<h1>FlutterFlow Tutorial: Build Your Main Task Page</h1>
+  <h1>FlutterFlow Page Navigation</h1>
+  <p class="subtitle">Step-by-step tutorial using your final project</p>
 
-<div class="meta">
-  <p><strong>For:</strong> Complete beginners to FlutterFlow (no coding required)</p>
-  <p><strong>Time needed:</strong> 45–60 minutes</p>
-  <p><strong>You will build:</strong> A "Main Task" page that looks finished — using only clicks, drag, and drop</p>
-  <p><strong>Reference:</strong> <a href="https://docs.flutterflow.io/flutterflow-ui/widget-palette" target="_blank" rel="noopener">FlutterFlow Widget Palette Docs</a></p>
-</div>
+  <!-- ============ INSTRUCTOR NOTE ============ -->
+  <section class="instructor">
+    <h2>Instructor Note</h2>
+    <p><strong>Use your final project for this tutorial.</strong> You do not need to build a new practice app. Open your existing FlutterFlow final project and choose two pages you have already created:</p>
+    <ul>
+      <li>A page with a button or other tappable widget</li>
+      <li>The page you want that widget to open</li>
+    </ul>
+    <p>You will add and test navigation between those two pages. All your work stays in your final project.</p>
+  </section>
 
-<div class="callout">
-  🧠 <strong>Good news:</strong> You will not write a single line of code, and you will not need any database or GitHub account. Everything happens inside FlutterFlow with drag-and-drop.
-</div>
+  <!-- ============ WHAT YOU'LL LEARN ============ -->
+  <h2>What you’ll learn</h2>
+  <p>In this tutorial, you’ll use your final project to:</p>
+  <ul>
+    <li>Add a navigation action to a button</li>
+    <li>Choose a destination page</li>
+    <li>Test the navigation in your app</li>
+    <li>Optionally pass information from one page to another</li>
+  </ul>
 
-<div class="toc">
-  <strong>Contents</strong>
+  <!-- ============ STEP 1 ============ -->
+  <h2>Step 1 — Open your final project</h2>
   <ol>
-    <li><a href="#learn">What You Will Learn</a></li>
-    <li><a href="#start">Before You Start</a></li>
-    <li><a href="#project">Create Your Project</a></li>
-    <li><a href="#palette">Understanding the Widget Palette</a></li>
-    <li><a href="#build">Build the Main Task Page</a></li>
-    <li><a href="#polish">Polish the Layout</a></li>
-    <li><a href="#preview">Preview on a Phone</a></li>
-    <li><a href="#problems">Fix Common Problems</a></li>
-    <li><a href="#checklist">Final Checklist</a></li>
-    <li><a href="#bonus">Bonus Challenges</a></li>
+    <li>Sign in to <a href="https://flutterflow.io/">FlutterFlow</a>.</li>
+    <li>Open the FlutterFlow project you are using for your final project.</li>
+    <li>In the <strong>Pages</strong> panel, identify:
+      <ul>
+        <li>The page where you want to add a navigation button</li>
+        <li>The page you want the button to open</li>
+      </ul>
+    </li>
   </ol>
-</div>
+  <p>Use the real page names from your project throughout this tutorial.</p>
 
-<h2 id="learn">1. What You Will Learn</h2>
-<p>By the end of this tutorial you will be able to:</p>
-<ul>
-  <li>Find and use widgets from the <strong>Widget Palette</strong></li>
-  <li>Build a clean, responsive page layout — without code</li>
-  <li>Use layout widgets to arrange things exactly where you want</li>
-  <li>Spot and fix the most common beginner layout error</li>
-</ul>
+  <!-- ============ STEP 2 ============ -->
+  <h2>Step 2 — Choose a widget for navigation</h2>
+  <ol>
+    <li>Open the page where you want the navigation button.</li>
+    <li>Select an existing button or another tappable widget.</li>
+    <li>If you don’t have one, add a <strong>Button</strong> widget and give it a clear label, such as <strong>View Details</strong> or <strong>Go to Profile</strong>.</li>
+  </ol>
+  <p>Choose wording that makes sense for your app.</p>
 
-<h2 id="start">2. Before You Start</h2>
-<p>Make sure you have these ready:</p>
-<table>
-  <thead>
-    <tr><th>What you need</th><th>Where to get it</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>FlutterFlow account</td><td><a href="https://flutterflow.io" target="_blank" rel="noopener">flutterflow.io</a> — free plan is fine</td></tr>
-    <tr><td>A browser</td><td>Chrome or Edge recommended</td></tr>
-    <tr><td>About 1 hour</td><td>Don't rush — the clicking is the learning</td></tr>
-  </tbody>
-</table>
-<div class="callout">
-  💡 <strong>Note:</strong> You do <strong>not</strong> need to install Flutter, Dart, or any coding tools. No database. No GitHub. Everything happens in your browser.
-</div>
+  <!-- ============ STEP 3 ============ -->
+  <h2>Step 3 — Add navigation to the destination page</h2>
+  <ol>
+    <li>Select the button or tappable widget.</li>
+    <li>Open its <strong>Actions</strong> settings.</li>
+    <li>Add an action.</li>
+    <li>Choose <strong>Navigation</strong>.</li>
+    <li>Choose <strong>Navigate To</strong>.</li>
+    <li>Select the page you want to open.</li>
+    <li>Save or confirm the action.</li>
+  </ol>
+  <p>When the user taps the widget, FlutterFlow should open the destination page you selected.</p>
 
-<h2 id="project">3. Create Your Project</h2>
-<ol>
-  <li>Log in to FlutterFlow.</li>
-  <li>Click <strong>Create New Project</strong>.</li>
-  <li>Name it: <code>task-tracker-student</code></li>
-  <li>Choose the <strong>Blank</strong> template (not a pre-built one — we build from scratch to learn).</li>
-  <li>When asked about Firebase, choose to <strong>skip</strong> or <strong>set up later</strong>. We don't need it.</li>
-</ol>
-<div class="checkpoint">✅ <strong>Checkpoint:</strong> You should now see the FlutterFlow Builder with an empty page called <code>HomePage</code>.</div>
+  <!-- ============ STEP 4 ============ -->
+  <h2>Step 4 — Add a way to return</h2>
+  <p>On the destination page, add a button that lets the user go back or move on.</p>
+  <ol>
+    <li>Open the destination page.</li>
+    <li>Select an existing button, or add a <strong>Button</strong> widget.</li>
+    <li>Give it a clear label, such as <strong>Back</strong> or <strong>Return to Home</strong>.</li>
+    <li>Open the button’s <strong>Actions</strong> settings.</li>
+    <li>Add a navigation action:
+      <ul>
+        <li>Choose <strong>Go Back</strong> to return to the previous page, or</li>
+        <li>Choose <strong>Navigate To</strong> and select a specific page.</li>
+      </ul>
+    </li>
+    <li>Save or confirm the action.</li>
+  </ol>
+  <p>Use <strong>Go Back</strong> when the user should return to the page they came from. Use <strong>Navigate To</strong> when you want the button to open a particular page.</p>
 
-<h2 id="palette">4. Understanding the Widget Palette</h2>
-<p>The <strong>Widget Palette</strong> is the panel on the <strong>left side</strong> of the builder. It holds every building block you can drag onto your page.</p>
-<div class="callout">
-  🧠 <strong>Mental model:</strong> Think of the Palette as a <strong>box of LEGO bricks</strong>. You pick a brick, drop it on the page, then change its color, size, and spacing using the settings panel on the right.
-</div>
+  <!-- ============ STEP 5 ============ -->
+  <h2>Step 5 — Choose the right navigation action</h2>
 
-<h3>Layout Elements</h3>
-<p>These control <strong>where things go</strong> on the page.</p>
-<table>
-  <thead>
-    <tr><th>Widget</th><th>What it does</th><th>We use it for</th></tr>
-  </thead>
-  <tbody>
-    <tr><td><strong>Column</strong></td><td>Stacks items vertically</td><td>The whole page below the header</td></tr>
-    <tr><td><strong>Row</strong></td><td>Places items side by side</td><td>Title + settings icon in the header</td></tr>
-    <tr><td><strong>Container</strong></td><td>A styled box (background, border, spacing)</td><td>Each task card</td></tr>
-    <tr><td><strong>Stack</strong></td><td>Layers items on top of each other</td><td>The floating "+" button</td></tr>
-    <tr><td><strong>Expandable</strong></td><td>Fills leftover space</td><td>Around text inside cards</td></tr>
-  </tbody>
-</table>
+  <h3>Navigate To</h3>
+  <p>Use <strong>Navigate To</strong> to open a specific page.</p>
+  <blockquote><p><strong>Example:</strong> A <strong>View Details</strong> button opens the details page.</p></blockquote>
 
-<h3>Basic Elements</h3>
-<p>These are the <strong>content</strong> pieces.</p>
-<table>
-  <thead>
-    <tr><th>Widget</th><th>What it does</th><th>We use it for</th></tr>
-  </thead>
-  <tbody>
-    <tr><td><strong>Text</strong></td><td>Shows words</td><td>"My Tasks", task names</td></tr>
-    <tr><td><strong>Icon</strong></td><td>Shows a symbol</td><td>The settings gear, delete icon</td></tr>
-    <tr><td><strong>Divider</strong></td><td>A thin separator line</td><td>Between sections (optional)</td></tr>
-  </tbody>
-</table>
+  <h3>Go Back</h3>
+  <p>Use <strong>Go Back</strong> to return to the previous page in the navigation history.</p>
+  <blockquote><p><strong>Example:</strong> A <strong>Back</strong> button returns the user to the page they just left.</p></blockquote>
 
-<h3>Form Elements</h3>
-<p>These are <strong>interactive</strong> pieces.</p>
-<table>
-  <thead>
-    <tr><th>Widget</th><th>What it does</th><th>We use it for</th></tr>
-  </thead>
-  <tbody>
-    <tr><td><strong>Checkbox</strong></td><td>A tick box for marking complete</td><td>Each task card</td></tr>
-    <tr><td><strong>TextField</strong></td><td>A text box for typing</td><td>Bonus challenge</td></tr>
-  </tbody>
-</table>
+  <h3>Replace Route</h3>
+  <p>Use a route-replacement option when you want to open a new page and prevent the user from returning to the previous one using back navigation.</p>
+  <blockquote><p><strong>Example:</strong> After signing in, open the dashboard and prevent the user from returning to the login page using the back button.</p></blockquote>
 
-<h3>The Golden Rule: Palette vs. Widget Tree</h3>
-<p>There are <strong>two</strong> panels you need to know:</p>
-<ul>
-  <li><strong>Widget Palette</strong> (left, top) → your toolbox — the bricks you can grab</li>
-  <li><strong>Widget Tree</strong> (left, bottom) → the actual list of what is on your page</li>
-</ul>
-<div class="warn">
-  ⚠️ <strong>Remember this:</strong> When you drop a widget, it goes <strong>into whichever widget is selected in the Widget Tree</strong>. If a widget lands in the wrong place, it's almost always because the wrong parent was selected. <strong>Always select the parent in the tree first, then drag.</strong>
-</div>
-<div class="callout">
-  💡 <strong>Time saver:</strong> Use the <strong>search box</strong> at the top of the Palette to find a widget quickly.
-</div>
+  <div class="tip">
+    <p><span class="callout-title">Note</span>FlutterFlow’s interface and action names may change over time. If an option looks different, check the current navigation action menu in your project.</p>
+  </div>
 
-<h2 id="build">5. Build the Main Task Page</h2>
-<p>Build in <strong>four stages</strong>: page → header → cards → button. Take your time — there's no rush, and every step is just a click.</p>
+  <!-- ============ STEP 6 ============ -->
+  <h2>Step 6 — Test your navigation</h2>
+  <ol>
+    <li>Run your app in FlutterFlow’s preview or test mode.</li>
+    <li>Open the page containing your navigation widget.</li>
+    <li>Tap the widget and confirm that the correct destination page opens.</li>
+    <li>Test the return button, if you added one.</li>
+  </ol>
 
-<h3>Stage 1: Create the page</h3>
-<ol>
-  <li>Click the <strong>Page Selector</strong> at the top → <strong>+ Add Page</strong>.</li>
-  <li>Name it: <code>MainTaskPage</code></li>
-  <li>Go to <strong>Settings</strong> → <strong>App Details</strong> → set <strong>Initial Page</strong> to <code>MainTaskPage</code>.</li>
-  <li>On the page settings, turn the <strong>AppBar OFF</strong> — we're building our own header.</li>
-</ol>
+  <h3>Troubleshooting</h3>
+  <p>If navigation doesn’t work, check that:</p>
+  <ul>
+    <li>The action is attached to the correct widget.</li>
+    <li>You selected the correct destination page.</li>
+    <li>The action is enabled and saved.</li>
+    <li>You’re testing the latest version of your project.</li>
+  </ul>
 
-<h3>Stage 2: Add the page's base</h3>
-<ol>
-  <li>Drag a <strong>Column</strong> onto the canvas.</li>
-  <li>With the Column selected, open the <strong>Properties Panel</strong> (right side) and set:</li>
-</ol>
-<table>
-  <thead><tr><th>Setting</th><th>Value</th></tr></thead>
-  <tbody>
-    <tr><td>Main Axis Size</td><td><code>max</code></td></tr>
-    <tr><td>Cross Axis Alignment</td><td><code>stretch</code></td></tr>
-    <tr><td>Padding</td><td>16 on all sides</td></tr>
-    <tr><td>Background Color</td><td>Your theme's surface color</td></tr>
-  </tbody>
-</table>
-<ol start="3">
-  <li>In the <strong>Widget Tree</strong>, rename it to <code>mainColumn</code> (double-click the name).</li>
-</ol>
-<div class="checkpoint">✅ <strong>Checkpoint:</strong> A full-height column now fills your page.</div>
+  <!-- ============ OPTIONAL CHALLENGE ============ -->
+  <h2>Optional challenge — Pass data to another page</h2>
+  <p>If it suits your final project, try passing information from one page to another.</p>
+  <p>For example, a student profile page might receive a student’s name from a list page.</p>
+  <ol>
+    <li>Set up a page parameter on the destination page.</li>
+    <li>Select the navigation widget on the source page.</li>
+    <li>Open the navigation action’s parameter settings.</li>
+    <li>Pass a value to the destination page.</li>
+    <li>Display that value on the destination page.</li>
+  </ol>
 
-<h3>Stage 3: Build the header</h3>
-<ol>
-  <li>Drag a <strong>Row</strong> into <code>mainColumn</code>.</li>
-  <li>Inside that Row, add (in order):
-    <ul>
-      <li>a <strong>Text</strong> widget → type: <code>My Tasks</code> → set font size to <strong>28</strong> and make it <strong>bold</strong></li>
-      <li>a <strong>Spacer</strong> (drag one from the Palette) → pushes the next item to the far right</li>
-      <li>an <strong>Icon</strong> widget → choose the <strong>settings</strong> icon</li>
-    </ul>
-  </li>
-  <li>Give the Row <strong>16px padding</strong> at the bottom.</li>
-</ol>
-<div class="checkpoint">✅ <strong>Checkpoint:</strong> Top of the page shows "My Tasks" on the left and a gear icon on the right.</div>
+  <!-- ============ CHECKLIST ============ -->
+  <h2>Final project checklist</h2>
+  <p>Before you finish, make sure:</p>
+  <ul class="checklist">
+    <li>Your navigation action supports a real user task in your app.</li>
+    <li>The button label makes it clear where the user will go.</li>
+    <li>The correct destination page opens.</li>
+    <li>Users have an appropriate way to return or continue.</li>
+    <li>You tested the navigation in preview or test mode.</li>
+  </ul>
 
-<h3>Stage 4: Add a "tasks remaining" line</h3>
-<ol>
-  <li>Drag a <strong>Text</strong> widget into <code>mainColumn</code>, just below the header Row.</li>
-  <li>Type: <code>3 tasks remaining</code></li>
-  <li>Set color to a muted grey and size to <strong>14</strong>.</li>
-</ol>
-<div class="callout">
-  💡 <strong>Why type fake text?</strong> The number is a placeholder for now. A fixed label is perfect for learning layout.
-</div>
+  <footer>
+    <strong>Reference:</strong> <a href="https://docs.flutterflow.io/concepts/navigation/page-navigation">FlutterFlow — Page Navigation</a>
+  </footer>
 
-<h3>Stage 5: Build your first task card</h3>
-<p>This is the centerpiece. Follow slowly.</p>
-<ol>
-  <li>Drag a <strong>Container</strong> into <code>mainColumn</code>. This is your <strong>task card</strong>. Set:</li>
-</ol>
-<table>
-  <thead><tr><th>Setting</th><th>Value</th></tr></thead>
-  <tbody>
-    <tr><td>Padding</td><td>12 on all sides</td></tr>
-    <tr><td>Padding</td><td>0 top, 8 bottom, 0 left, 0 right</td></tr>
-    <tr><td>Border Radius</td><td>12</td></tr>
-    <tr><td>Background Color</td><td>Your theme's card color</td></tr>
-  </tbody>
-</table>
-<ol start="2">
-  <li>Inside the card Container, drag a <strong>Row</strong>.</li>
-  <li>Inside that Row, add (in order):
-    <ul>
-      <li>a <strong>Checkbox</strong></li>
-      <li>an <strong>Expandable</strong> widget → inside it a <strong>Column</strong></li>
-      <li>an <strong>Icon</strong> → choose <strong>delete_outline</strong></li>
-    </ul>
-  </li>
-  <li>Inside that inner Column, add two Text widgets:
-    <ul>
-      <li>Text 1: <code>Buy groceries</code> → <strong>bold</strong>, size 16</li>
-      <li>Text 2: <code>Due: Oct 12</code> → grey, size 13</li>
-    </ul>
-  </li>
-</ol>
-<div class="checkpoint">✅ <strong>Checkpoint:</strong> One clean task card with a checkbox, title, date, and delete icon.</div>
-<div class="callout">
-  💡 <strong>Why Expanded around the inner Column?</strong> It lets the text stretch and wrap instead of overflowing. Overflow shows up as yellow-and-black striped bars — you'll learn to spot it instantly.
-</div>
-
-<h3>Stage 6: Copy the card for more tasks</h3>
-<ol>
-  <li>In the <strong>Widget Tree</strong>, right-click your task card Container.</li>
-  <li>Choose <strong>Copy</strong>, then <strong>Paste</strong>.</li>
-  <li>Paste <strong>twice</strong> so you have <strong>three</strong> cards.</li>
-  <li>Edit the text in each copy so they differ:
-    <ul>
-      <li>Card 2: <code>Finish report</code> / <code>Due: Oct 15</code></li>
-      <li>Card 3: <code>Call dentist</code> / <code>Due: Oct 8</code></li>
-    </ul>
-  </li>
-  <li>On Card 3, <strong>tick the Checkbox</strong> so one card looks completed.</li>
-</ol>
-<div class="checkpoint">✅ <strong>Checkpoint:</strong> Three task cards, all with different text.</div>
-
-<h3>Stage 7: Add the floating "+" button</h3>
-<ol>
-  <li>In the Widget Tree, select the very top of the page.</li>
-  <li>Drag a <strong>Stack</strong> and place it as the <strong>outermost</strong> widget, with <code>mainColumn</code> inside it.</li>
-  <li>Add a second child to the Stack: a <strong>Container</strong>. Set:</li>
-</ol>
-<table>
-  <thead><tr><th>Setting</th><th>Value</th></tr></thead>
-  <tbody>
-    <tr><td>Width</td><td>56</td></tr>
-    <tr><td>Height</td><td>56</td></tr>
-    <tr><td>Border Radius</td><td>28 (this makes it a perfect circle)</td></tr>
-    <tr><td>Background Color</td><td>Your primary color</td></tr>
-    <tr><td>Alignment</td><td>Bottom Right</td></tr>
-    <tr><td>Padding</td><td>24</td></tr>
-  </tbody>
-</table>
-<ol start="4">
-  <li>Inside the Container, add an <strong>Icon</strong> → choose <strong>add</strong> → set color to <strong>white</strong>.</li>
-</ol>
-<div class="checkpoint">✅ <strong>Checkpoint:</strong> A round button floats at the bottom-right, above your cards.</div>
-<p>✅ <strong>Stage complete:</strong> You now have a beautiful, static Main Task page — built entirely with clicks.</p>
-
-<h3>Reference Images</h3>
-<h4>Target Widget Tree</h4>
-<img src="./flutterflow-widget-tree-diagram.png" alt="Widget Tree Diagram — Main Task Page">
-<h4>Finished Page</h4>
-<img src="./main-task-page-mockup.png" alt="Main Task Page Mockup">
-
-<h2 id="polish">6. Polish the Layout</h2>
-<p>These small touches make the page look professional instead of "student work."</p>
-<ul>
-  <li><strong>Consistent spacing:</strong> Everything should have the same 16px page padding. Uneven gaps look messy.</li>
-  <li><strong>Icon colors:</strong> Make the settings and delete icons a muted grey (<code>#6B7280</code>) instead of pure black.</li>
-  <li><strong>Title weight:</strong> Keep only the page title and task titles bold. Everything else should be regular weight.</li>
-  <li><strong>Choose a theme:</strong> Go to <strong>Theme Settings</strong> and pick a primary color you like — it instantly updates the "+" button and other accents.</li>
-</ul>
-<div class="callout">
-  💡 <strong>A good habit:</strong> Zoom out and look at the whole page on the canvas. If something feels off-balance, it probably is. Trust your eye.
-</div>
-
-<h2 id="preview">7. Preview on a Phone</h2>
-<p>Always check your work on a phone-sized screen before calling it done.</p>
-<ol>
-  <li>Click the <strong>Play / Preview</strong> button (top-right of the builder).</li>
-  <li>Switch the preview to a <strong>phone</strong> size (e.g. iPhone or Pixel).</li>
-  <li>Check that:
-    <ul>
-      <li>The header sits at the top</li>
-      <li>All three cards are visible</li>
-      <li>The "+" button stays at the bottom-right</li>
-    </ul>
-  </li>
-  <li>Then try a <strong>tablet</strong> size. If things stretch awkwardly, adjust your padding.</li>
-</ol>
-<div class="checkpoint">✅ <strong>Checkpoint:</strong> No yellow/black overflow bars in either view.</div>
-<div class="callout">
-  🧠 <strong>Why this matters:</strong> A layout that looks fine on a large canvas often breaks on a real phone. Previewing at phone size is the single best habit you can build.
-</div>
-
-<h2 id="problems">8. Fix Common Problems</h2>
-<table>
-  <thead>
-    <tr><th>Problem</th><th>Why it happens</th><th>How to fix</th></tr>
-  </thead>
-  <tbody>
-    <tr><td>Red &amp; yellow striped bars appear</td><td>A widget can't fit inside its parent</td><td>Check for missing <strong>Expanded</strong> widgets</td></tr>
-    <tr><td>Widget drops in the wrong place</td><td>The wrong parent was selected in the Widget Tree</td><td>Select the <strong>parent in the tree first</strong>, then drag</td></tr>
-    <tr><td>The "+" button isn't floating</td><td>Stack not set as the outermost widget</td><td>Make sure the Stack <strong>contains</strong> <code>mainColumn</code></td></tr>
-    <tr><td>Card text gets cut off</td><td>Inner Column not wrapped in Expanded</td><td>Wrap the text Column in an <strong>Expanded</strong> widget</td></tr>
-    <tr><td>The page appears empty in preview</td><td>Initial Page not set correctly</td><td>Check <strong>Settings → App Details → Initial Page</strong></td></tr>
-    <tr><td>Cards have uneven spacing</td><td>Inconsistent margins</td><td>Set every card's margin to <strong>0 top, 8 bottom</strong></td></tr>
-    <tr><td>Checkbox does nothing</td><td>It's just a visual element in a front-end build</td><td>That's expected — a working checkbox needs data logic, a later lesson</td></tr>
-  </tbody>
-</table>
-<div class="callout">
-  💡 <strong>The #1 beginner error:</strong> You can't see it on the canvas, but the Widget Tree tells you everything. If something looks wrong on the page, <strong>read the tree</strong> like a paragraph — top to bottom, inside to outside.
-</div>
-
-<h2 id="checklist">9. Final Checklist</h2>
-<p>Before you show your work to anyone, confirm each line:</p>
-<ul class="checklist">
-  <li><code>MainTaskPage</code> is set as the <strong>Initial Page</strong></li>
-  <li>Header shows "My Tasks" and a settings icon</li>
-  <li>"3 tasks remaining" line appears below the header</li>
-  <li>Three task cards are visible, each with a checkbox, title, date, and delete icon</li>
-  <li>One card is ticked as completed</li>
-  <li>The circular floating <strong>"+"</strong> button sits at the bottom-right</li>
-  <li>No yellow/black overflow bars on phone or tablet preview</li>
-  <li>The page uses one consistent color theme</li>
-</ul>
-
-<h2 id="bonus">10. Bonus Challenges</h2>
-<p>Finished early? Try these — still no coding required.</p>
-<ol>
-  <li><strong>Add a 4th task</strong> — copy a card and change the text.</li>
-  <li><strong>Add a divider</strong> — place a thin Divider line between two sections.</li>
-  <li><strong>Try an empty state</strong> — delete all three cards and instead show one big friendly "No tasks yet!" message in the middle of the page.</li>
-  <li><strong>Add a date picker</strong> — drop a DatePicker widget onto the page to see what it looks like.</li>
-  <li><strong>Styling pass</strong> — pick a brand-new color theme and apply it consistently.</li>
-</ol>
-
-<hr>
-
-<h2>📌 Quick Reference — Cheat Sheet</h2>
-<p>Keep this open in a second tab while you build:</p>
-<img src="./flutterflow-cheat-sheet.png" alt="FlutterFlow Widget Palette Cheat Sheet">
-
-
-<footer>
-  Built from the official <a href="https://docs.flutterflow.io/flutterflow-ui/widget-palette" target="_blank" rel="noopener">FlutterFlow Widget Palette documentation</a>.
-</footer>
-
+</article>
 </body>
 </html>
