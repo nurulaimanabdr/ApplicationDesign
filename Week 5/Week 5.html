@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FlutterFlow Page Navigation — Student Tutorial</title>
+<style>
+  :root {
+    --ink: #1f2933;
+    --muted: #616e7c;
+    --accent: #2f6fed;
+    --accent-soft: #eef3fe;
+    --border: #dcdfe4;
+    --code-bg: #f4f6f8;
+    --tip-bg: #f0f7ee;
+    --tip-border: #5c9b4a;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    padding: 2.5rem 1.25rem;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.7;
+    color: var(--ink);
+    background: #ffffff;
+  }
+
+  article {
+    max-width: 820px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-size: 2rem;
+    line-height: 1.25;
+    margin: 0 0 0.35rem;
+    letter-spacing: -0.02em;
+  }
+
+  .subtitle {
+    color: var(--muted);
+    font-size: 1.05rem;
+    margin: 0 0 2rem;
+  }
+
+  h2 {
+    font-size: 1.4rem;
+    margin: 2.75rem 0 0.75rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  h3 {
+    font-size: 1.1rem;
+    margin: 1.75rem 0 0.5rem;
+  }
+
+  p { margin: 0 0 1rem; }
+
+  ul, ol { margin: 0 0 1.15rem; padding-left: 1.4rem; }
+  li { margin-bottom: 0.4rem; }
+
+  code {
+    background: var(--code-bg);
+    padding: 0.12rem 0.36rem;
+    border-radius: 4px;
+    font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    font-size: 0.9em;
+  }
+
+  blockquote {
+    margin: 1.25rem 0;
+    padding: 0.85rem 1.1rem;
+    background: var(--code-bg);
+    border-left: 4px solid var(--muted);
+    border-radius: 0 6px 6px 0;
+    color: var(--ink);
+  }
+  blockquote p:last-child { margin-bottom: 0; }
+
+  .instructor {
+    margin: 0 0 2.5rem;
+    padding: 1.35rem 1.5rem;
+    background: var(--accent-soft);
+    border-left: 5px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+  }
+  .instructor h2 {
+    margin: 0 0 0.6rem;
+    font-size: 1.15rem;
+    border: none;
+    padding: 0;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .instructor p:last-child { margin-bottom: 0; }
+
+  .tip {
+    margin: 1.25rem 0;
+    padding: 0.85rem 1.1rem;
+    background: var(--tip-bg);
+    border-left: 4px solid var(--tip-border);
+    border-radius: 0 6px 6px 0;
+  }
+  .tip p:last-child { margin-bottom: 0; }
+
+  .checklist {
+    list-style: none;
+    padding-left: 0;
+  }
+  .checklist li {
+    position: relative;
+    padding-left: 1.9rem;
+    margin-bottom: 0.6rem;
+  }
+  .checklist li::before {
+    content: "☐";
+    position: absolute;
+    left: 0;
+    top: 0;
+    font-size: 1.1rem;
+    color: var(--accent);
+  }
+
+  .callout-title {
+    font-weight: 600;
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+
+  footer {
+    margin-top: 3rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.92rem;
+    color: var(--muted);
+  }
+  footer a { color: var(--accent); }
+
+  @media print {
+    body { padding: 0; }
+    a { color: var(--ink); }
+  }
+</style>
+</head>
+<body>
+<article>
+
+  <h1>FlutterFlow Page Navigation</h1>
+  <p class="subtitle">Step-by-step tutorial using your final project</p>
+
+  <!-- ============ INSTRUCTOR NOTE ============ -->
+  <section class="instructor">
+    <h2>Instructor Note</h2>
+    <p><strong>Use your final project for this tutorial.</strong> You do not need to build a new practice app. Open your existing FlutterFlow final project and choose two pages you have already created:</p>
+    <ul>
+      <li>A page with a button or other tappable widget</li>
+      <li>The page you want that widget to open</li>
+    </ul>
+    <p>You will add and test navigation between those two pages. All your work stays in your final project.</p>
+  </section>
+
+  <!-- ============ WHAT YOU'LL LEARN ============ -->
+  <h2>What you’ll learn</h2>
+  <p>In this tutorial, you’ll use your final project to:</p>
+  <ul>
+    <li>Add a navigation action to a button</li>
+    <li>Choose a destination page</li>
+    <li>Test the navigation in your app</li>
+    <li>Optionally pass information from one page to another</li>
+  </ul>
+
+  <!-- ============ STEP 1 ============ -->
+  <h2>Step 1 — Open your final project</h2>
+  <ol>
+    <li>Sign in to <a href="https://flutterflow.io/">FlutterFlow</a>.</li>
+    <li>Open the FlutterFlow project you are using for your final project.</li>
+    <li>In the <strong>Pages</strong> panel, identify:
+      <ul>
+        <li>The page where you want to add a navigation button</li>
+        <li>The page you want the button to open</li>
+      </ul>
+    </li>
+  </ol>
+  <p>Use the real page names from your project throughout this tutorial.</p>
+
+  <!-- ============ STEP 2 ============ -->
+  <h2>Step 2 — Choose a widget for navigation</h2>
+  <ol>
+    <li>Open the page where you want the navigation button.</li>
+    <li>Select an existing button or another tappable widget.</li>
+    <li>If you don’t have one, add a <strong>Button</strong> widget and give it a clear label, such as <strong>View Details</strong> or <strong>Go to Profile</strong>.</li>
+  </ol>
+  <p>Choose wording that makes sense for your app.</p>
+
+  <!-- ============ STEP 3 ============ -->
+  <h2>Step 3 — Add navigation to the destination page</h2>
+  <ol>
+    <li>Select the button or tappable widget.</li>
+    <li>Open its <strong>Actions</strong> settings.</li>
+    <li>Add an action.</li>
+    <li>Choose <strong>Navigation</strong>.</li>
+    <li>Choose <strong>Navigate To</strong>.</li>
+    <li>Select the page you want to open.</li>
+    <li>Save or confirm the action.</li>
+  </ol>
+  <p>When the user taps the widget, FlutterFlow should open the destination page you selected.</p>
+
+  <!-- ============ STEP 4 ============ -->
+  <h2>Step 4 — Add a way to return</h2>
+  <p>On the destination page, add a button that lets the user go back or move on.</p>
+  <ol>
+    <li>Open the destination page.</li>
+    <li>Select an existing button, or add a <strong>Button</strong> widget.</li>
+    <li>Give it a clear label, such as <strong>Back</strong> or <strong>Return to Home</strong>.</li>
+    <li>Open the button’s <strong>Actions</strong> settings.</li>
+    <li>Add a navigation action:
+      <ul>
+        <li>Choose <strong>Go Back</strong> to return to the previous page, or</li>
+        <li>Choose <strong>Navigate To</strong> and select a specific page.</li>
+      </ul>
+    </li>
+    <li>Save or confirm the action.</li>
+  </ol>
+  <p>Use <strong>Go Back</strong> when the user should return to the page they came from. Use <strong>Navigate To</strong> when you want the button to open a particular page.</p>
+
+  <!-- ============ STEP 5 ============ -->
+  <h2>Step 5 — Choose the right navigation action</h2>
+
+  <h3>Navigate To</h3>
+  <p>Use <strong>Navigate To</strong> to open a specific page.</p>
+  <blockquote><p><strong>Example:</strong> A <strong>View Details</strong> button opens the details page.</p></blockquote>
+
+  <h3>Go Back</h3>
+  <p>Use <strong>Go Back</strong> to return to the previous page in the navigation history.</p>
+  <blockquote><p><strong>Example:</strong> A <strong>Back</strong> button returns the user to the page they just left.</p></blockquote>
+
+  <h3>Replace Route</h3>
+  <p>Use a route-replacement option when you want to open a new page and prevent the user from returning to the previous one using back navigation.</p>
+  <blockquote><p><strong>Example:</strong> After signing in, open the dashboard and prevent the user from returning to the login page using the back button.</p></blockquote>
+
+  <div class="tip">
+    <p><span class="callout-title">Note</span>FlutterFlow’s interface and action names may change over time. If an option looks different, check the current navigation action menu in your project.</p>
+  </div>
+
+  <!-- ============ STEP 6 ============ -->
+  <h2>Step 6 — Test your navigation</h2>
+  <ol>
+    <li>Run your app in FlutterFlow’s preview or test mode.</li>
+    <li>Open the page containing your navigation widget.</li>
+    <li>Tap the widget and confirm that the correct destination page opens.</li>
+    <li>Test the return button, if you added one.</li>
+  </ol>
+
+  <h3>Troubleshooting</h3>
+  <p>If navigation doesn’t work, check that:</p>
+  <ul>
+    <li>The action is attached to the correct widget.</li>
+    <li>You selected the correct destination page.</li>
+    <li>The action is enabled and saved.</li>
+    <li>You’re testing the latest version of your project.</li>
+  </ul>
+
+  <!-- ============ OPTIONAL CHALLENGE ============ -->
+  <h2>Optional challenge — Pass data to another page</h2>
+  <p>If it suits your final project, try passing information from one page to another.</p>
+  <p>For example, a student profile page might receive a student’s name from a list page.</p>
+  <ol>
+    <li>Set up a page parameter on the destination page.</li>
+    <li>Select the navigation widget on the source page.</li>
+    <li>Open the navigation action’s parameter settings.</li>
+    <li>Pass a value to the destination page.</li>
+    <li>Display that value on the destination page.</li>
+  </ol>
+
+  <!-- ============ CHECKLIST ============ -->
+  <h2>Final project checklist</h2>
+  <p>Before you finish, make sure:</p>
+  <ul class="checklist">
+    <li>Your navigation action supports a real user task in your app.</li>
+    <li>The button label makes it clear where the user will go.</li>
+    <li>The correct destination page opens.</li>
+    <li>Users have an appropriate way to return or continue.</li>
+    <li>You tested the navigation in preview or test mode.</li>
+  </ul>
+
+  <footer>
+    <strong>Reference:</strong> <a href="https://docs.flutterflow.io/concepts/navigation/page-navigation">FlutterFlow — Page Navigation</a>
+  </footer>
+
+</article>
+</body>
+</html>
