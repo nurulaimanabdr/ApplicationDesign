@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Week 11: Integrating Native AI Agents in FlutterFlow | Practical Lab</title>
+<style>
+:root{--blue:#165bd8;--navy:#102d55;--ink:#152b49;--muted:#53647a;--line:#dae4f1;--pale:#f3f7fc;--white:#fff;--soft:#edf4ff;--green:#146b55}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--pale);color:var(--ink);font:16px/1.7 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,input,textarea{font:inherit}a{color:var(--blue)}a:focus-visible,button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid #e9a22a;outline-offset:3px}h1,h2,h3,h4{line-height:1.28}h1{font-size:clamp(31px,4.6vw,51px);letter-spacing:-1.2px;margin:14px 0 16px}h2{font-size:26px;margin:0 0 11px}h3{font-size:21px}p{margin:10px 0 15px}code{background:#edf2f8;color:#18498e;padding:2px 6px;border-radius:5px;font-size:.91em;overflow-wrap:anywhere}header{position:relative;overflow:hidden;isolation:isolate;background:var(--navy);color:white;padding:57px max(24px,calc((100vw - 1000px)/2)) 49px}header:before{content:"";position:absolute;width:430px;height:430px;border:1px solid #ffffff28;border-radius:50%;right:-170px;top:-210px;box-shadow:0 0 0 80px #ffffff09,0 0 0 155px #ffffff09;z-index:-1}.intro{max-width:750px}.eyebrow{font-size:13px;text-transform:uppercase;letter-spacing:1.6px;font-weight:800;color:#b5d3ff}.intro>p{font-size:17px;color:#d6e5ff;max-width:690px}.hero-footer{display:flex;flex-wrap:wrap;gap:9px;margin-top:24px}.hero-pill{display:inline-flex;border:1px solid #ffffff50;background:#ffffff15;color:#f4f8ff;border-radius:99px;padding:4px 12px;font-size:13px;font-weight:700}
+main{max-width:1048px;margin:auto;padding:24px}nav{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:22px}nav a{font-size:14px;font-weight:700;border:1px solid var(--line);background:white;border-radius:9px;padding:8px 13px;text-decoration:none}nav a:hover{background:#e9f2ff}nav .doclink{margin-left:auto;background:#e8f1ff}
+section{background:white;border:1px solid var(--line);border-radius:18px;padding:28px;margin:22px 0;scroll-margin-top:20px;box-shadow:0 5px 25px #233b6207}.section-lead{color:var(--muted);max-width:800px}.phase{margin:30px 0 16px;padding:25px 28px;background:linear-gradient(110deg,#f5f9ff,#fff);border-color:#cadcf6}.phase-kicker,.step-tag{display:block;color:var(--blue);font-weight:800;font-size:13px;letter-spacing:1px;text-transform:uppercase}.phase h2{margin:3px 0 6px}.phase p:last-child{margin-bottom:0}.toc-steps{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px 15px}.toc-steps a{display:block;text-decoration:none;padding:10px;border-radius:8px;color:var(--ink);font-size:15px}.toc-steps a:hover{background:#eef5ff;color:var(--blue)}.toc-steps small{display:inline-block;min-width:29px;color:var(--blue);font-weight:800;font-size:14px}#progress-wrap{display:flex;align-items:center;gap:13px;flex-wrap:wrap;margin:18px 0 0}.progress{font-size:14px;color:var(--muted);font-weight:700;margin:0}.progress-track{height:9px;border-radius:20px;background:#e7edf7;overflow:hidden;min-width:150px;flex:1}.progress-bar{height:100%;width:0;background:var(--blue);border-radius:20px;transition:width .25s ease}.controls{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 0}button{border:none;border-radius:9px;background:var(--blue);color:white;font-weight:700;padding:11px 17px;cursor:pointer}button:hover{filter:brightness(.94)}button.secondary{background:#e9eff8;color:var(--ink)}button.outline{color:var(--blue);background:white;border:1px solid #9ab8ee}
+.article-list article{padding:25px 0;border-top:1px solid var(--line);scroll-margin-top:20px}.article-list article:first-child{border-top:none;padding-top:5px}.stephead{display:flex;align-items:center;gap:15px;margin-bottom:9px}.number{display:inline-block;flex:0 0 auto;min-width:57px;text-align:center;color:white;background:var(--blue);border-radius:12px;font-size:23px;font-weight:800;padding:9px 14px}.stephead h3{margin:2px 0}.step-tag{color:var(--muted);font-size:12px}.article-list ol{margin:9px 0 14px;padding-left:25px}.article-list li{margin:7px 0;padding-left:3px}.note,.tip,.warn{padding:14px 17px;border-radius:7px;font-size:15px;margin:17px 0}.note,.tip{background:#edf4ff;border-left:4px solid var(--blue)}.warn{background:#fff8e9;border-left:4px solid #db901a}.note strong,.tip strong{color:#15418b}.check{display:flex;align-items:center;gap:9px;margin:17px 0 0;font-size:15px;color:var(--muted);cursor:pointer}.check input,.final-check{accent-color:var(--blue);height:18px;width:18px;flex-shrink:0}.check input:checked+span{text-decoration:line-through;text-decoration-color:#8f9bb0}.settings-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:15px}th,td{text-align:left;vertical-align:top;padding:11px 13px;border-bottom:1px solid var(--line)}th{color:#1c406c;background:#f4f8fe;font-size:14px}.settings-table tr:last-child td{border-bottom:none}.settings-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:11px;margin:16px 0}.settings-wrap .settings-table{margin:0}.settings-table td:first-child{width:34%;font-weight:700}.path{padding:13px 16px;background:#f1f6fd;border:1px solid #d7e5f7;border-radius:9px;color:#17417a;font-size:14px;font-weight:750;overflow-wrap:anywhere;margin:15px 0}.small{color:var(--muted);font-size:13px}.inline-chip{display:inline-block;padding:2px 10px;background:#e7f1ff;color:#1654ad;border-radius:100px;font-size:12px;font-weight:800}.flow-diagram{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:center;gap:9px;margin:18px 0}.flow-node{min-height:99px;padding:15px 13px;border:1px solid #c9dafa;background:#f2f7ff;border-radius:12px;text-align:center;display:flex;flex-direction:column;justify-content:center;gap:3px}.flow-node strong{font-size:15px;color:#123c83}.flow-node span{font-size:13px;color:var(--muted);line-height:1.45}.flow-arrow{font-weight:900;font-size:25px;color:var(--blue);text-align:center}
+/* Illustrated widget builder panel */
+.diagram{background:#f7faff;border:1px dashed #9db9ed;border-radius:13px;padding:20px;margin:17px 0}.diagram-title{font-weight:800;font-size:14px;margin-bottom:13px}.builder-grid{display:grid;grid-template-columns:minmax(140px,.75fr) minmax(230px,1.2fr) minmax(165px,.85fr);gap:10px;align-items:stretch}.builder-side,.builder-middle{border:1px solid #d9e6f7;background:#fff;border-radius:11px;padding:13px;min-width:0}.panel-heading{font-size:12px;text-transform:uppercase;letter-spacing:1px;color:#526c8c;font-weight:800;padding-bottom:9px;border-bottom:1px solid #e4ecf6;margin-bottom:12px}.tree-line{border-radius:7px;margin:7px 0;padding:8px 9px;background:#f4f8ff;color:#244566;font-size:13px;font-weight:650}.tree-line.indent{margin-left:12px}.tree-line.selected{background:#e1edff;color:#1654ae;border:1px solid #9cc0f2}.screen-mini{width:min(100%,245px);min-height:272px;margin:auto;border:5px solid #243b60;border-radius:23px;background:#fff;display:flex;justify-content:center;align-items:center;flex-direction:column;gap:9px;padding:18px 12px;text-align:center;box-shadow:0 6px 16px #22395d10}.screen-mini .mini-icon{font-size:38px;line-height:1}.screen-mini .mini-heading{font-size:19px;font-weight:800;color:#1a3455}.screen-mini .mini-sub{font-size:11px;color:#647b97}.screen-mini .mini-btn{background:#165bd8;color:white;border-radius:7px;padding:8px 12px;font-size:12px;font-weight:750;margin-top:8px}.prop-line{background:#f2f6fc;border:1px solid #e1eaf7;border-radius:7px;padding:9px 10px;font-size:12px;margin:8px 0;color:#30547d}.prop-line strong{color:#165bd8}.diagram-caption{font-size:12px;color:var(--muted);margin:12px 0 0}
+/* Live preview */
+.preview-layout{display:grid;grid-template-columns:minmax(265px,.9fr) 1fr;gap:27px;align-items:center;margin-top:15px}.demo-shell{display:flex;justify-content:center;background:linear-gradient(145deg,#f0f6ff,#eaf0fb);padding:25px;border:1px solid #d7e7fa;border-radius:15px;min-height:425px}.phone{position:relative;width:242px;min-height:373px;border:6px solid #1d3456;border-radius:29px;background:white;box-shadow:0 14px 34px #21396325;padding:13px 18px 22px;display:flex;flex-direction:column;align-items:center;text-align:center;overflow:hidden}.phone:before{content:"";width:65px;height:12px;border-radius:0 0 12px 12px;background:#1d3456;position:absolute;top:-1px;left:calc(50% - 32px)}.phone-top{align-self:stretch;display:flex;justify-content:space-between;font-size:9px;font-weight:700;color:#5b6980;margin:0 0 47px}.icon-container{height:80px;width:100%;display:flex;align-items:center;justify-content:center}.entry-icon{transition:transform .8s cubic-bezier(.2,.78,.23,1);transform:translateX(-105px)}.entry-icon.ready{transform:translateX(0)}.icon-inner{display:flex;align-items:center;justify-content:center;font-size:48px;width:76px;height:76px;border-radius:23px;color:#165bd8;background:#e8f1ff;transform:scale(1)}.icon-inner.pulse{animation:demoPulse .6s ease-in-out}.entry-title{opacity:0;transition:opacity 1s ease-in-out;color:#1b365b;font-size:22px;font-weight:800;line-height:1.2;margin-top:14px}.entry-title.ready{opacity:1}.phone-sub{font-size:12px;color:#667b99;line-height:1.5;margin:10px 0 15px}.phone-btn{background:#165bd8;color:white;padding:11px 15px;border-radius:9px;font-size:12px;font-weight:700;width:100%;margin:0}.phone-btn:hover{background:#1250bd}.preview-instructions{font-size:15px;color:var(--muted)}.legend-row{display:flex;gap:9px;flex-wrap:wrap;margin:13px 0}.legend-pill{background:#eef4ff;color:#28548b;border-radius:99px;padding:4px 10px;font-size:12px;font-weight:800}.demo-status{background:#f5f9ff;border:1px solid #d7e6fa;border-radius:11px;padding:12px 14px;color:#244566;min-height:51px;font-size:14px;margin-top:13px}.demo-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}.demo-note{font-size:13px;color:var(--muted);margin-top:12px}@keyframes demoPulse{0%{transform:scale(1)}50%{transform:scale(1.2)}100%{transform:scale(1)}}
+.checklist{list-style:none;padding:0;margin:16px 0}.checklist li{border-bottom:1px solid #e6edf6;padding:12px 0}.checklist label{cursor:pointer;display:flex;align-items:flex-start;gap:11px;margin:0;font-size:15px}.checklist .final-check{margin-top:4px}.submission-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:17px 0}.submission-card{background:#f4f8fe;border:1px solid #dce8f8;padding:17px;border-radius:11px}.submission-card strong{display:block;font-size:15px;margin-bottom:5px}.submission-card span{display:block;font-size:13px;color:var(--muted);line-height:1.5}.rubric{width:100%;border-collapse:collapse;font-size:15px;margin:17px 0}.rubric th,.rubric td{border-bottom:1px solid var(--line);padding:11px}.rubric td:last-child,.rubric th:last-child{text-align:right}.rubric tr:last-child{font-weight:800;background:#f3f8ff}.reflection-label{font-weight:800;display:block;margin:15px 0 7px}textarea{border:1px solid #9cadc2;border-radius:9px;width:100%;padding:13px;color:var(--ink);min-height:93px;resize:vertical;background:white}footer{max-width:1020px;margin:28px auto;padding:15px 26px 34px;font-size:14px;color:var(--muted)}footer a{font-weight:650}
+@media(max-width:760px){.builder-grid{grid-template-columns:1fr 1fr}.builder-side:last-child{grid-column:1/-1}.preview-layout{grid-template-columns:1fr}.demo-shell{min-height:440px}.submission-grid{grid-template-columns:1fr}}
+@media(max-width:620px){header{padding:43px 22px}main{padding:12px}nav .doclink{margin-left:0}section{padding:19px;margin:15px 0}.phase{padding:19px}.toc-steps{grid-template-columns:1fr}.flow-diagram{grid-template-columns:1fr}.flow-arrow{transform:rotate(90deg);line-height:1}.builder-grid{grid-template-columns:1fr}.builder-side:last-child{grid-column:auto}.stephead h3{font-size:19px}.number{min-width:49px;font-size:20px;padding:8px 10px}.demo-shell{padding:20px 10px}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;transition-duration:.01ms!important;scroll-behavior:auto!important}}
+@media print{body{font-size:13px;background:white}header{padding:15px 22px;background:white;color:#152b49}header:before{display:none}header .intro>p{color:#53647a}.eyebrow{color:#165bd8}.hero-pill{color:#152b49;background:white;border-color:#d6dfeb}nav,.controls,.check,.demo-actions,.phone-btn,.phone-top,.progress-track,footer a{display:none!important}main{padding:0 10px}section,.phase{padding:16px 19px;border-color:#d6dfe9;box-shadow:none;break-inside:auto}article{break-inside:avoid}.demo-shell{min-height:370px}.submission-grid{grid-template-columns:repeat(3,1fr)}.toc-steps{grid-template-columns:repeat(2,1fr)}.entry-title{opacity:1}.entry-icon{transform:none}.preview-layout{grid-template-columns:1fr 1fr}}
+
+/* Multi-modal AI Chat Simulation Customizations */
+.chat-screen{width:100%;height:380px;display:flex;flex-direction:column;text-align:left;background:#f9fbfe;border-radius:18px;border:1px solid #d9e5f5;overflow:hidden}
+.chat-appbar{background:var(--navy);color:white;padding:10px 14px;display:flex;align-items:center;gap:9px;flex-shrink:0}
+.chat-appbar .agent-avatar{width:28px;height:28px;border-radius:50%;background:#2a5cb8;display:flex;align-items:center;justify-content:center;font-size:14px}
+.chat-appbar .agent-meta{font-size:12px;line-height:1.2}
+.chat-appbar .agent-meta strong{display:block;font-size:13px}
+.chat-appbar .status-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#2cd98a;margin-right:3px}
+.chat-messages{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:9px}
+.chat-bubble{max-width:84%;padding:8px 12px;border-radius:12px;font-size:12.5px;line-height:1.45;word-break:break-word}
+.chat-bubble.user{align-self:flex-end;background:var(--blue);color:white;border-bottom-right-radius:2px}
+.chat-bubble.system{align-self:flex-start;background:white;color:var(--ink);border:1px solid #d4e2f5;border-bottom-left-radius:2px;box-shadow:0 2px 6px #152b490a}
+.chat-bubble img{width:100%;max-height:110px;object-fit:cover;border-radius:7px;margin-bottom:6px;display:block}
+.chat-bubble .timestamp{font-size:10px;opacity:.75;margin-top:3px;text-align:right}
+.chat-input-bar{background:white;border-top:1px solid var(--line);padding:7px 9px;display:flex;align-items:center;gap:6px;flex-shrink:0}
+.chat-input-bar input{flex:1;border:1px solid #c9daed;border-radius:20px;padding:6px 12px;font-size:12px;background:#fcfdff;outline:none}
+.chat-input-bar input:focus{border-color:var(--blue)}
+.chat-input-bar button{padding:6px 11px;font-size:12px;border-radius:20px}
+.btn-icon{background:#edf4ff;color:var(--blue);padding:6px 10px!important;border:1px solid #c8dcf7}
+.typing-dots{display:inline-flex;gap:3px;padding:3px 2px}
+.typing-dots span{width:5px;height:5px;background:var(--muted);border-radius:50%;animation:blinkDot 1.2s infinite ease-in-out}
+.typing-dots span:nth-child(2){animation-delay:.2s}
+.typing-dots span:nth-child(3){animation-delay:.4s}
+@keyframes blinkDot{0%,80%,100%{transform:scale(0.8);opacity:0.4}40%{transform:scale(1.2);opacity:1}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="intro">
+    <div class="eyebrow">FlutterFlow Practical Lab · Week 11</div>
+    <h1>Integrating Native AI Agents</h1>
+    <p>Build a multimodal AI chat assistant in FlutterFlow that reads natural language, analyzes uploaded photographs, and maintains persistent conversation history using Firestore threads.</p>
+    <div class="hero-footer">
+      <div class="hero-pill">Time: 45–60 mins</div>
+      <div class="hero-pill">Difficulty: Intermediate</div>
+      <div class="hero-pill">5 Core Steps (10 Milestones)</div>
+      <div class="hero-pill">Stack: FlutterFlow Native AI + Firestore</div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <nav aria-label="Section Navigation">
+    <a href="#overview">Overview</a>
+    <a href="#database">Database Schema</a>
+    <a href="#step-1">1. AI Agent</a>
+    <a href="#step-2">2. Firestore</a>
+    <a href="#step-3">3. Chat UI</a>
+    <a href="#step-4">4. Logic & Actions</a>
+    <a href="#step-5">5. Image Vision</a>
+    <a href="#simulator">Live Simulator</a>
+    <a href="#checklist">Checklist</a>
+    <a href="https://docs.flutterflow.io" target="_blank" rel="noopener" class="doclink">FlutterFlow Docs ↗</a>
+  </nav>
+
+  <!-- OVERVIEW & TOC -->
+  <section id="overview">
+    <h2>Practical Overview</h2>
+    <p class="section-lead">Historically, integrating AI required complex manual API calls, custom HTTP requests, and complicated JSON response parsing. FlutterFlow's native AI Agents feature streamlines this into a simple declarative configuration.</p>
+    
+    <div class="flow-diagram">
+      <div class="flow-node">
+        <strong>1. Native AI Agent</strong>
+        <span>Persona instructions, OpenAI provider, and multi-modal image flags.</span>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <strong>2. Threaded Firestore</strong>
+        <span><code>ai_chats</code> session linked to <code>ai_chat_messages</code> sub-feed.</span>
+      </div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node">
+        <strong>3. Dynamic Chat UI</strong>
+        <span>ListView sorted chronologically with conditional bubble alignment.</span>
+      </div>
+    </div>
+
+    <div class="toc-steps">
+      <a href="#step-1"><small>01</small> Access Native AI Agents Panel</a>
+      <a href="#step-2"><small>02</small> System Persona & Multimodal Vision</a>
+      <a href="#step-3"><small>03</small> Setup <code>ai_chats</code> Thread Collection</a>
+      <a href="#step-4"><small>04</small> Setup <code>ai_chat_messages</code> Collection</a>
+      <a href="#step-5"><small>05</small> ListView UI & Conditional Bubble Alignment</a>
+      <a href="#step-6"><small>06</small> Backend Query & Chronological Sorting</a>
+      <a href="#step-7"><small>07</small> On Page Load Session Initialization</a>
+      <a href="#step-8"><small>08</small> Action Chain: User Doc → AI Agent → Reply Doc</a>
+      <a href="#step-9"><small>09</small> Camera Upload Control & Vision URL</a>
+      <a href="#step-10"><small>10</small> Reset State & UX Text Field Clearing</a>
+    </div>
+
+    <div id="progress-wrap">
+      <span class="progress" id="progress-label">0 of 10 steps completed (0%)</span>
+      <div class="progress-track" aria-hidden="true">
+        <div class="progress-bar" id="practical-progress-bar"></div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button type="button" class="secondary" onclick="resetAllSteps()">Reset Progress</button>
+      <button type="button" class="outline" onclick="window.print()">Print Practical Guide</button>
+    </div>
+  </section>
+
+  <!-- DATABASE ARCHITECTURE PREVIEW -->
+  <section id="database">
+    <div class="phase-kicker">Architecture Reference</div>
+    <h2>Firestore Two-Tier Conversation Structure</h2>
+    <p class="section-lead">To allow the AI to remember the context of an ongoing conversation, two collections work in concert: one for overall threads, and one for back-and-forth messages.</p>
+
+    <div class="settings-wrap">
+      <table class="settings-table">
+        <thead>
+          <tr>
+            <th>Collection</th>
+            <th>Field Name</th>
+            <th>Type</th>
+            <th>Description & Purpose</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>ai_chats</code></td>
+            <td><code>user_ref</code></td>
+            <td>Document Reference (users)</td>
+            <td>Identifies which authenticated user owns this conversation thread.</td>
+          </tr>
+          <tr>
+            <td><code>ai_chats</code></td>
+            <td><code>conversation_id</code></td>
+            <td>String</td>
+            <td>Unique thread identifier passed directly to the AI Agent engine to restore conversational context.</td>
+          </tr>
+          <tr>
+            <td><code>ai_chat_messages</code></td>
+            <td><code>chat_reference</code></td>
+            <td>Document Reference (ai_chats)</td>
+            <td>Links each individual message bubble back to its parent conversation thread.</td>
+          </tr>
+          <tr>
+            <td><code>ai_chat_messages</code></td>
+            <td><code>role</code></td>
+            <td>String</td>
+            <td>Differentiates between <code>"user"</code> and <code>"system"</code> (the AI assistant).</td>
+          </tr>
+          <tr>
+            <td><code>ai_chat_messages</code></td>
+            <td><code>message_text</code></td>
+            <td>String</td>
+            <td>The natural language prompt entered by user or the answer generated by the AI agent.</td>
+          </tr>
+          <tr>
+            <td><code>ai_chat_messages</code></td>
+            <td><code>image_path</code></td>
+            <td>ImagePath / String (Optional)</td>
+            <td>Firebase Storage URL of any photo uploaded alongside the prompt.</td>
+          </tr>
+          <tr>
+            <td><code>ai_chat_messages</code></td>
+            <td><code>sent_datetime</code></td>
+            <td>DateTime</td>
+            <td>Timestamp used to sort conversation in strictly increasing chronological order.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- STEP-BY-STEP LAB CONTENT -->
+  <div class="phase" id="phase-1">
+    <span class="phase-kicker">Phase 1</span>
+    <h2>Step 1: Setting up the Native AI Agent</h2>
+    <p>Configure the foundational instructions that dictate how the AI will reason and format responses without writing custom cloud functions.</p>
+  </div>
+
+  <div class="article-list">
+    <!-- Step 1 -->
+    <article id="step-1">
+      <div class="stephead">
+        <span class="number">01</span>
+        <div>
+          <span class="step-tag">Agent Setup · Provider</span>
+          <h3>Access Native AI Agents and Select Model Provider</h3>
+        </div>
+      </div>
+      <p>Navigate to the native agent builder inside FlutterFlow to start your assistant configuration.</p>
+      <ol>
+        <li>Open your FlutterFlow project and locate the <strong>AI Agents</strong> section in the left-hand navigation menu.</li>
+        <li>Click <strong>+ Create Agent</strong> and give your assistant a descriptive identifier (e.g., <code>RecipeAssistantAgent</code>).</li>
+        <li>In the <strong>Provider</strong> dropdown, select your desired provider (e.g., <strong>OpenAI</strong> or FlutterFlow Native).</li>
+        <li>Input your API credentials / API key when prompted to authorize direct execution.</li>
+      </ol>
+      <div class="path">Left Navigation Menu → AI Agents → + Create Agent → Provider: OpenAI</div>
+      <label class="check">
+        <input type="checkbox" onchange="toggleStepCheck(this)">
+        <span>I have created the agent and authenticated the model provider.</span>
+      </label>
+    </article>
+
+    <!-- Step 2 -->
+    <article id="step-2">
+      <div class="stephead">
+        <span class="number">02</span>
+        <div>
+          <span class="step-tag">Agent Setup · Persona & Multimodal</span>
+          <h3>Define System Persona and Enable Image Processing</h3>
+        </div>
+      </div>
+      <p>Specify the instructions that shape the AI's personality and enable visual reasoning capabilities.</p>
+      <ol>
+        <li>Under <strong>System Message</strong>, write clear instructions defining the AI's role and rules:
+          <br><em>"You are a smart recipe assistant. Suggest healthy recipes based on ingredients the user provides or uploads photos of. Be encouraging, concise, and provide step-by-step instructions."</em>
+        </li>
+        <li>Locate the <strong>Request Parameters</strong> section.</li>
+        <li>Ensure both <strong>Text</strong> and <strong>Image</strong> checkboxes are enabled so the agent can accept both natural language and photos.</li>
+      </ol>
+      <div class="tip">
+        <strong>Important for Vision:</strong> Checking <strong>Image</strong> exposes an image URL input parameter in the Send Message action later in Step 4.
+      </div>
+      <label class="check">
+        <input type="checkbox" onchange="toggleStepCheck(this)">
+        <span>I have specified the System Message and checked both Text and Image request parameters.</span>
+      </label>
+    </article>
+  </div>
+
+  <div class="phase" id="phase-2">
+    <span class="phase-kicker">Phase 2</span>
+    <h2>Step 2: Database Structure (Firestore)</h2>
+    <p>Set up the dual-collection schema required to store conversation sessions and persistent message exchanges.</p>
+  </div>
+
+  <div class="article-list">
+    <!-- Step 3 -->
+    <article id="step-3">
+      <div class="stephead">
+        <span class="number">03</span>
+        <div>
+          <span class="step-tag">Firestore · Thread Schema</span>
+          <h3>Create the <code>ai_chats</code> Collection</h3>
+        </div>
+      </div>
+      <p>This collection represents distinct conversation sessions.</p>
+      <ol>
+        <li>Navigate to <strong>Firestore</strong> in the left sidebar and click <strong>Create Collection</strong>.</li>
+        <li>Name the collection <code>ai_chats</code>.</li>
+        <li>Add the field <code>user_ref</code> with Type <strong>Document Reference</strong> pointing to <code>users</code>.</li>
+        <li>Add the field <code>conversation_id</code> with Type <strong>String</strong> (this identifier is required by FlutterFlow AI Agents to maintain contextual memory).</li>
+      </ol>
+      <div class="path">Firestore Database → Add Collection → ai_chats → Add fields: user_ref, conversation_id</div>
+      <label class="check">
+        <input type="checkbox" onchange="toggleStepCheck(this)">
+        <span>Collection <code>ai_chats</code> created with <code>user_ref</code> and <code>conversation_id</code>.</span>
+      </label>
+    </article>
+
+    <!-- Step 4 -->
+    <article id="step-4">
+      <div class="stephead">
+        <span class="number">04</span>
+        <div>
+          <span class="step-tag">Firestore · Message Schema</span>
+          <h3>Create the <code>ai_chat_messages</code> Collection</h3>
+        </div>
+      </div>
+      <p>This collection stores every turn of conversation (each individual user or AI message).</p>
+      <ol>
+        <li>Create a second collection named <code>ai_chat_messages</code>.</li>
+        <li>Add <code>chat_reference</code> (Document Reference pointing to <code>ai_chats</code>).</li>
+        <li>Add <code>role</code> (String: <code>"user"</code> or <code>"system"</code>).</li>
+        <li>Add <code>message_text</code> (String).</li>
+        <li>Add <code>sent_datetime</code> (DateTime).</li>
+        <li>Add <code>image_path</code> (ImagePath / String, Optional).</li>
+      </ol>
+      <div class="path">Firestore Database → Add Collection → ai_chat_messages → Add required schema fields</div>
+      <label class="check">
+        <input type="checkbox" onchange="toggleStepCheck(this)">
+        <span>Collection <code>ai_chat_messages</code> configured with all 5 message attributes.</span>
+      </label>
+    </article>
+  </div>
+
+  <div class="phase" id="phase-3">
+    <span class="phase-kicker">Phase 3</span>
+    <h2>Step 3: Building the Chat UI</h2>
+    <p>Construct a ListView chat screen with responsive left/right message bubble alignment and real-time Firestore querying.</p>
+  </div>
+
+  <div class="article-list">
+    <!-- Step 5 -->
+    <article id="step-5">
+      <div class="stephead">
+        <span class="number">05</span>
+        <div>
+          <span class="step-tag">UI Layout · Alignment</span>
+          <h3>Construct ListView and Apply Conditional Visibility</h3>
+        </div>
+      </div>
+      <p>Ensure user and assistant messages visually appear on opposite sides of the screen.</p>
+      <ol>
+        <li>Drag a <strong>ListView</strong> widget into your page body.</li>
+        <li>Inside the ListView template item, add two Row containers representing:
+          <ul>
+            <li><strong>User Bubble Row:</strong> Right-aligned container with primary blue background.</li>
+            <li><strong>AI Assistant Bubble Row:</strong> Left-aligned container with light grey/white background.</li>
+          </ul>
+        </li>
+        <li>Select the User Row, enable <strong>Conditional Visibility</strong>, and set condition: <code>role == "user"</code>.</li>
+        <li>Select the AI Row, enable <strong>Conditional Visibility</strong>, and set condition: <code>role == "system"</code>.</li>
+      </ol>
+      <div class="diagram">
+        <div class="diagram-title">Widget Tree & Conditional Visibility Architecture</div>
+        <div class="builder-grid">
+          <div class="builder-side">
+            <div class="panel-heading">Widget Tree</div>
+            <div class="tree-line">Column</div>
+            <div class="tree-line indent selected">ListView (Messages)</div>
+            <div class="tree-line indent" style="margin-left:22px">Row (User Bubble)</div>
+            <div class="tree-line indent" style="margin-left:22px">Row (AI Bubble)</div>
+            <div class="tree-line">Row (Input Bar)</div>
+          </div>
+          <div class="builder-middle">
+            <div class="panel-heading">Visual Screen Preview</div>
+            <div style="background:#f8faff;border:1px solid #d5e4f7;border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px;">
+              <div style="align-self:flex-end;background:#165bd8;color:#fff;padding:6px 10px;border-radius:10px;font-size:11px;">User Prompt (Right)</div>
+              <div style="align-self:flex-start;background:#fff;border:1px solid #c9daed;padding:6px 10px;border-radius:10px;font-size:11px;">AI System Reply (Left)</div>
+            </div>
+            <div class="diagram-caption">Rows toggle visibility based on the Firestore document's <code>role</code> field.</div>
+          </div>
+          <div class="builder-side">
+            <div class="panel-heading">Properties</div>
+            <div class="prop-line">Conditional Visibility: <strong>Single Condition</strong></div>
+            <div class="prop-line">First Value: <code>ai_chat_messages.role</code></div>
+            <div class="prop-line">Condition: <strong>Equal To</strong></div>
+            <div class="prop-line">Second Value: <code>"user"</code> / <code>"system"</code></div>
+          </div>
+        </div>
+      </div>
+      <label class="check">
+        <input type="checkbox" onchange="toggleStepCheck(this)">
+        <span>ListView item configured with conditional left/right visibility based on message role.</span>
+      </label>
+    </article>
+
+    <!-- Step 6 -->
+    <article id="step-6">
+      <div class="stephead">
+        <span class="number">06</span>
+        <div>
+          <span class="step-tag">Data Fetching · Sorting</span>
+          <h3>Attach Backend Query with Chronological Sorting</h3>
+        </div>
+      </div>
+      <p>Stream the conversation messages in proper sequential order.</p>
+      <ol>
+        <li>Select the <strong>ListView</strong> widget and open the <strong>Backend Query</strong> tab in the right panel.</li>
+        <li>Query Type: <strong>Query Collection</strong> → Collection: <code>ai_chat_messages</code> → Query Type: <strong>List of Documents</strong>.</li>
+        <li>Add a <strong>Filter</strong>: <code>chat_reference</code> Equal To <code>Active Chat Document Reference</code>.</li>
+        <li><strong style="color:var(--blue)">Crucial UI Step:</strong> Under <strong>Order By</strong>, select <code>sent_datetime</code> and choose <strong>Increasing</strong> so earlier messages appear at the top and newly arrived messages appear at the bottom.</li>
+      </ol>
+      <div class="warn">
+        <strong>Warning:</strong> Omitting the <code>Increasing</code> sort order on <code>sent_datetime</code> causes replies to render randomly or invert upside-down as new documents arrive.
+      </div>
+      <label class="check">
+        <input type="checkbox" onchange="toggleStepCheck(this)">
+        <span>Backend Query configured with active chat filter and Increasing sent_datetime sort order.</span>
+      </label>
+    </article>
+  </div>
+
+  <div class="phase" id="phase-4">
+    <span class="phase-kicker">Phase 4</span>
+    <h2>Step 4: Configuring the Logic & Actions</h2>
+    <p>Wire the lifecycle actions on page load and trigger the Send Message execution chain.</p>
+  </div>
+
+  <div class="article-list">
+    <!-- Step 7 -->
+    <article id="step-7">
+      <div class="stephead">
+        <span class="number">07</span>
+        <div>
+          <span class="step-tag">Lifecycle Logic · Initialization</span>
+          <h3>On Page Load: Check or Create Active Chat Session</h3>
+        </div>
+      </div>
+      <p>Ensure that an ongoing session thread exists before the user can type or send messages.</p>
+      <ol>
+        <li>Select the root <strong>Page</strong> widget and open its <strong>Action Flow Editor</strong> under <strong>On Page Load</strong>.</li>
+        <li>Add an action to query <code>ai_chats</code> where <code>user_ref</code> equals <strong>Authenticated User</strong>.</li>
+        <li>Add a <strong>Conditional Action</strong> evaluating whether an active document exists:
+          <ul>
+            <li><strong>TRUE (Chat Exists):</strong> Save reference to Page State.</li>
+            <li><strong>FALSE (No Active Chat):</strong> Trigger <strong>Create Document</strong> in <code>ai_chats</code>, generate a unique <code>conversation_id</code> (e.g. using Random String or UUID), and assign the output reference to Page State.</li>
+          </ul>
+        </li>
+      </ol>
+      <div class="path">Page Properties → Actions → On Page Load → Query ai_chats → Conditional Check → Create If Null</div>
+      <label class="check">
+        <input type="checkbox" onchange="toggleStepCheck(this)">
+        <span>On Page Load action successfully validates or creates the conversation thread.</span>
+      </label>
+    </article>
+
+    <!-- Step 8 -->
+    <article id="step-8">
+      <div class="stephead">
+        <span class="number">08</span>
+        <div>
+          <span class="step-tag">Action Flow · Message Chain</span>
+          <h3>Send Button: Record User Message and Invoke AI Agent</h3>
+        </div>
+      </div>
+      <p>Build the core 3-step action chain on your Send IconButton.</p>
+      
+      <div class="flow-diagram">
+        <div class="flow-node">
+          <strong>1. Create User Document</strong>
+          <span>Save text input to <code>ai_chat_messages</code> with role = "user"</span>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node" style="border-color:var(--blue);background:#eaf2ff;">
+          <strong>2. Trigger AI Agent</strong>
+          <span>Execute Send Message with text & conversation_id</span>
+        </div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-node">
+          <strong>3. Create System Document</strong>
+          <span>Save AI action response with role = "system"</span>
+        </div>
+      </div>
+
+      <ol>
+        <li><strong>Action 1 (Create User Message):</strong> Create document in <code>ai_chat_messages</code>:
+          <ul>
+            <li><code>chat_reference</code> = Active Chat Document</li>
+            <li><code>role</code> = <code>"user"</code></li>
+            <li><code>message_text</code> = Textfield widget state</li>
+            <li><code>sent_datetime</code> = Current Time</li>
+          </ul>
+        </li>
+        <li><strong>Action 2 (AI Agent Send Message):</strong> Under Actions, select <strong>AI Agent → Send Message</strong>. Provide:
+          <ul>
+            <li>Agent: <code>RecipeAssistantAgent</code></li>
+            <li>Text Input: Textfield widget state</li>
+            <li>Conversation ID: Active chat's <code>conversation_id</code></li>
+            <li>Action Output Variable Name: <code>aiResponse</code></li>
+          </ul>
+        </li>
+        <li><strong>Action 3 (Create System Reply):</strong> Immediately create a second document in <code>ai_chat_messages</code>:
+          <ul>
+            <li><code>chat_reference</code> = Active Chat Document</li>
+            <li><code>role</code> = <code>"system"</code></li>
+            <li><code>message_text</code> = Action Output <code>aiResponse</code></li>
+            <li><code>sent_datetime</code> = Current Time</li>
+          </ul>
+        </li>
+      </ol>
+      <label class="check">
+        <input type="checkbox" onchange="toggleStepCheck(this)">
+        <span>Configured the 3-step action chain (Record User Msg → AI Agent Action → Record AI Reply).</span>
+      </label>
+    </article>
+  </div>
+
+  <div class="phase" id="phase-5">
+    <span class="phase-kicker">Phase 5</span>
+    <h2>Step 5: Adding Image Capabilities & UX Polish</h2>
+    <p>Enable multi-modal photo analysis and ensure seamless UI state clearing after sending.</p>
+  </div>
+
+  <div class="article-list">
+    <!-- Step 9 -->
+    <article id="step-9">
+      <div class="stephead">
+        <span class="number">09</span>
+        <div>
+          <span class="step-tag">Multimodal Vision · Camera</span>
+          <h3>Add Image Upload Control & Pass Photo URL to Agent</h3>
+        </div>
+      </div>
+      <p>Allow users to upload pictures directly (e.g. snapping a picture of ingredients inside their fridge).</p>
+      <ol>
+        <li>Add an image upload IconButton (e.g. camera or paperclip icon) adjacent to your text field.</li>
+        <li>Attach the action <strong>Upload / Save Media → Upload Photo/Video to Firebase</strong>.</li>
+        <li>In your Send Message Action Chain (Step 8, Action 2):
+          <ul>
+            <li>Locate the <strong>Image Input</strong> parameter on the <strong>AI Agent → Send Message</strong> action.</li>
+            <li>Bind it to the uploaded media URL output variable from your upload action.</li>
+          </ul>
+        </li>
+        <li>In Action 1 (User Document), pass the uploaded photo URL into the <code>image_path</code> field.</li>
+      </ol>
+      <div class="path">Upload Button → Upload Media → Send Action: AI Agent → Pass Text + Uploaded Photo URL</div>
+      <label class="check">
+        <input type="checkbox" onchange="toggleStepCheck(this)">
+        <span>Photo upload action connected and media URL wired to the AI Agent's image parameter.</span>
+      </label>
+    </article>
+
+    <!-- Step 10 -->
+    <article id="step-10">
+      <div class="stephead">
+        <span class="number">10</span>
+        <div>
+          <span class="step-tag">UX Polish · State Clearing</span>
+          <h3>Reset Input State & Clear Upload Cache</h3>
+        </div>
+      </div>
+      <p>Keep the user interface clean and responsive for subsequent prompts.</p>
+      <ol>
+        <li>At the very end of your Send Message action chain, add a <strong>Clear Text Field</strong> action targeting your input widget.</li>
+        <li>Add a <strong>Clear Uploaded File</strong> or Page State reset action to dismiss any uploaded image thumbnail preview.</li>
+      </ol>
+      <div class="note">
+        <strong>User Experience Note:</strong> Clearing both the text input and uploaded photo preview prevents accidental duplicate submissions and ensures the input bar is immediately ready for follow-up questions.
+      </div>
+      <label class="check">
+        <input type="checkbox" onchange="toggleStepCheck(this)">
+        <span>Added final actions to clear text field and reset uploaded image state.</span>
+      </label>
+    </article>
+  </div>
+
+  <!-- INTERACTIVE SIMULATION -->
+  <section id="simulator">
+    <div class="phase-kicker">Interactive Component</div>
+    <h2>Interactive Native AI Agent Simulator</h2>
+    <p class="section-lead">Test how FlutterFlow's native AI Agent processes multimodal text and image inputs while managing conversation threads and Firestore-like states.</p>
+
+    <div class="preview-layout">
+      <div class="demo-shell">
+        <div class="phone" style="padding:10px 10px 14px; min-height:410px; width:260px;">
+          <div class="chat-screen">
+            <div class="chat-appbar">
+              <div class="agent-avatar">🤖</div>
+              <div class="agent-meta">
+                <strong>Recipe AI Assistant</strong>
+                <span><span class="status-dot"></span>Native Agent Active</span>
+              </div>
+            </div>
+
+            <div class="chat-messages" id="simChatList">
+              <div class="chat-bubble system">
+                Hello! I am your AI Recipe Assistant. Tell me what ingredients you have, or snap a photo of your fridge!
+                <div class="timestamp">9:41 AM</div>
+              </div>
+            </div>
+
+            <div class="chat-input-bar">
+              <button type="button" class="btn-icon" id="simUploadBtn" onclick="toggleSimPhoto()" title="Attach Fridge Photo">📷</button>
+              <input type="text" id="simInput" placeholder="Ask recipe or ingredients..." onkeydown="if(event.key==='Enter') executeSimSend()">
+              <button type="button" onclick="executeSimSend()">Send</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h3>Test Multimodal Prompts</h3>
+        <p class="preview-instructions">Click a preset prompt or test custom messages to observe conditional bubble alignment, image processing, and thread retention.</p>
+        
+        <div class="legend-row">
+          <span class="legend-pill">Active Thread: conv_ff_wk11</span>
+          <span class="legend-pill" id="simImagePill">Photo: None Attached</span>
+        </div>
+
+        <div class="demo-actions">
+          <button type="button" class="secondary" onclick="runSimScenario('text')">Scenario A: Text Query (Eggs, Spinach)</button>
+          <button type="button" class="secondary" onclick="runSimScenario('photo')">Scenario B: Multimodal Photo Analysis</button>
+          <button type="button" class="secondary" onclick="runSimScenario('followup')">Scenario C: Contextual Follow-up</button>
+        </div>
+
+        <div class="demo-status" id="simLog">
+          <strong>System Ready:</strong> Ready for user prompt. Send Message action chain is primed.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VERIFICATION CHECKLIST & RUBRIC -->
+  <section id="checklist">
+    <div class="phase-kicker">Submission Verification</div>
+    <h2>Week 11 Deliverables & Self-Checklist</h2>
+    <p class="section-lead">Verify that your FlutterFlow project fulfills every functional requirement prior to project submission.</p>
+
+    <ul class="checklist">
+      <li>
+        <label>
+          <input type="checkbox" class="final-check">
+          <span><strong>Native AI Agent Created:</strong> Persona prompt configured under System Message and provider authenticated.</span>
+        </label>
+      </li>
+      <li>
+        <label>
+          <input type="checkbox" class="final-check">
+          <span><strong>Multimodal Enabled:</strong> Both Text and Image checkboxes activated under Request Parameters.</span>
+        </label>
+      </li>
+      <li>
+        <label>
+          <input type="checkbox" class="final-check">
+          <span><strong>Dual Firestore Schema:</strong> <code>ai_chats</code> contains <code>user_ref</code> and <code>conversation_id</code>; <code>ai_chat_messages</code> contains all 5 required fields.</span>
+        </label>
+      </li>
+      <li>
+        <label>
+          <input type="checkbox" class="final-check">
+          <span><strong>Chronological Query:</strong> ListView backend query filters by active chat reference and sorts by <code>sent_datetime</code> Increasing.</span>
+        </label>
+      </li>
+      <li>
+        <label>
+          <input type="checkbox" class="final-check">
+          <span><strong>Conditional Bubble Alignment:</strong> User messages aligned right (<code>role == "user"</code>); AI messages aligned left (<code>role == "system"</code>).</span>
+        </label>
+      </li>
+      <li>
+        <label>
+          <input type="checkbox" class="final-check">
+          <span><strong>Lifecycle Session Check:</strong> On Page Load checks for an existing active chat document and generates one if null.</span>
+        </label>
+      </li>
+      <li>
+        <label>
+          <input type="checkbox" class="final-check">
+          <span><strong>3-Step Send Action Chain:</strong> Records user message document, invokes AI Agent Send Message action, and records system reply document.</span>
+        </label>
+      </li>
+      <li>
+        <label>
+          <input type="checkbox" class="final-check">
+          <span><strong>Image Upload & Vision Integration:</strong> Upload Media action sends image URL to the AI Agent image parameter.</span>
+        </label>
+      </li>
+      <li>
+        <label>
+          <input type="checkbox" class="final-check">
+          <span><strong>Input & State Reset:</strong> Clears text field and resets uploaded media state after message dispatch.</span>
+        </label>
+      </li>
+    </ul>
+
+    <div class="submission-grid">
+      <div class="submission-card">
+        <strong>1. Public Project Link</strong>
+        <span>Ensure your FlutterFlow project sharing permissions are set to view/test.</span>
+      </div>
+      <div class="submission-card">
+        <strong>2. Video Walkthrough</strong>
+        <span>Record a 60-second screen capture demonstrating both text and image prompt responses.</span>
+      </div>
+      <div class="submission-card">
+        <strong>3. Firestore Verification</strong>
+        <span>Capture a screenshot of your Firebase console showing populated <code>ai_chats</code> and <code>ai_chat_messages</code> documents.</span>
+      </div>
+    </div>
+
+    <label class="reflection-label" for="student-notes">Student Technical Notes & Reflections</label>
+    <textarea id="student-notes" placeholder="Reflect on how FlutterFlow's native AI Agent compares to building custom cloud functions or manual REST API calls..."></textarea>
+  </section>
+</main>
+
+<footer>
+  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;">
+    <span>FlutterFlow Studio Curriculum · Week 11 Practical Guide</span>
+    <span><a href="#overview">Back to top ↑</a></span>
+  </div>
+</footer>
+
+<script>
+  // Progress tracker logic
+  function updateProgress() {
+    const checkboxes = document.querySelectorAll('.check input[type="checkbox"]');
+    const total = checkboxes.length;
+    let checkedCount = 0;
+    checkboxes.forEach(cb => { if(cb.checked) checkedCount++; });
+
+    const pct = Math.round((checkedCount / total) * 100);
+    const bar = document.getElementById('practical-progress-bar');
+    const label = document.getElementById('progress-label');
+    
+    if (bar && label) {
+      bar.style.width = pct + '%';
+      label.textContent = `${checkedCount} of ${total} steps completed (${pct}%)`;
+    }
+  }
+
+  function toggleStepCheck(input) {
+    updateProgress();
+  }
+
+  function resetAllSteps() {
+    document.querySelectorAll('.check input[type="checkbox"]').forEach(cb => cb.checked = false);
+    document.querySelectorAll('.final-check').forEach(cb => cb.checked = false);
+    updateProgress();
+  }
+
+  // Interactive Simulation
+  let simHasPhoto = false;
+  const fridgePhotoUrl = "https://images.unsplash.com/photo-1584269600464-37b1b58a9fe7?auto=format&fit=crop&w=400&q=80";
+
+  function toggleSimPhoto(forceState) {
+    if (typeof forceState === 'boolean') {
+      simHasPhoto = forceState;
+    } else {
+      simHasPhoto = !simHasPhoto;
+    }
+    const btn = document.getElementById('simUploadBtn');
+    const pill = document.getElementById('simImagePill');
+    const log = document.getElementById('simLog');
+
+    if (simHasPhoto) {
+      btn.style.background = '#146b55';
+      btn.style.color = '#fff';
+      pill.textContent = 'Photo: fridge_contents.jpg Attached';
+      pill.style.background = '#e1f5ee';
+      pill.style.color = '#146b55';
+      log.innerHTML = '<strong>Media Attached:</strong> <code>fridge_contents.jpg</code> uploaded to Firebase Storage and bound to AI Agent Image input.';
+    } else {
+      btn.style.background = '#edf4ff';
+      btn.style.color = 'var(--blue)';
+      pill.textContent = 'Photo: None Attached';
+      pill.style.background = '#eef4ff';
+      pill.style.color = '#28548b';
+    }
+  }
+
+  function executeSimSend(forcedText = null) {
+    const input = document.getElementById('simInput');
+    const text = forcedText || input.value.trim();
+    if (!text && !simHasPhoto) return;
+
+    const chatList = document.getElementById('simChatList');
+    const log = document.getElementById('simLog');
+
+    // 1. Create User Bubble
+    const userBubble = document.createElement('div');
+    userBubble.className = 'chat-bubble user';
+    let content = '';
+    if (simHasPhoto) {
+      content += `<img src="${fridgePhotoUrl}" alt="Fridge photo">`;
+    }
+    content += `<div>${text}</div><div class="timestamp">Just now</div>`;
+    userBubble.innerHTML = content;
+    chatList.appendChild(userBubble);
+
+    const hadPhoto = simHasPhoto;
+    // Step 10 UX Polish: Clear input and media state
+    input.value = '';
+    toggleSimPhoto(false);
+    chatList.scrollTop = chatList.scrollHeight;
+
+    // Log step 1
+    log.innerHTML = '<strong>Action 1:</strong> Created <code>ai_chat_messages</code> document with <code>role: "user"</code>. Calling native <code>AI Agent -> Send Message</code>...';
+
+    // 2. Typing indicator
+    const typingBubble = document.createElement('div');
+    typingBubble.className = 'chat-bubble system';
+    typingBubble.id = 'simTyping';
+    typingBubble.innerHTML = '<div class="typing-dots"><span></span><span></span><span></span></div>';
+    chatList.appendChild(typingBubble);
+    chatList.scrollTop = chatList.scrollHeight;
+
+    // 3. AI Reply
+    setTimeout(() => {
+      const typing = document.getElementById('simTyping');
+      if (typing) typing.remove();
+
+      const aiBubble = document.createElement('div');
+      aiBubble.className = 'chat-bubble system';
+
+      let reply = '';
+      if (hadPhoto) {
+        reply = '🔍 <strong>Visual Analysis:</strong> I see spinach, cheddar cheese, eggs, and bell peppers in your fridge! I suggest making a <strong>Loaded Veggie Omelette</strong>. Sauté the peppers and greens for 3 minutes, pour in whisked eggs, and fold in cheese.';
+      } else if (text.toLowerCase().includes('calories')) {
+        reply = 'That suggested recipe has approximately <strong>320 calories</strong> with 22g protein, 4g carbs, and 24g healthy fats.';
+      } else {
+        reply = '🍳 With those ingredients, you can whip up a <strong>Classic Cheesy Scramble</strong> in under 6 minutes. Whisk the eggs with a pinch of salt and fold in cheese off the heat!';
+      }
+
+      aiBubble.innerHTML = `<div>${reply}</div><div class="timestamp">Just now</div>`;
+      chatList.appendChild(aiBubble);
+      chatList.scrollTop = chatList.scrollHeight;
+
+      log.innerHTML = '<strong>Action 3 Complete:</strong> AI Agent response received and saved to Firestore with <code>role: "system"</code>. Chronological order maintained.';
+    }, 1100);
+  }
+
+  function runSimScenario(type) {
+    if (type === 'text') {
+      toggleSimPhoto(false);
+      executeSimSend("I have eggs, cheddar cheese, and spinach. What quick meal can I cook?");
+    } else if (type === 'photo') {
+      toggleSimPhoto(true);
+      executeSimSend("Analyze the contents of my fridge and suggest a healthy lunch.");
+    } else if (type === 'followup') {
+      toggleSimPhoto(false);
+      executeSimSend("How many calories are in that recipe you just recommended?");
+    }
+  }
+
+  // Initialize
+  window.addEventListener('DOMContentLoaded', () => {
+    updateProgress();
+  });
+</script>
+</body>
+</html>
